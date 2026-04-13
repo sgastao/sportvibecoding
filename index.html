@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Custom Config -->
     <script>
@@ -68,6 +69,25 @@
             object-fit: cover;
             border-radius: 0.5rem;
             background-color: #e2e8f0;
+        }
+
+        /* Certificate Styles */
+        .certificate-container {
+            width: 800px;
+            max-width: 100%;
+            background: white;
+            padding: 40px;
+            margin: 20px auto;
+        }
+        .certificate-border {
+            border: 4px solid #0284c7;
+            padding: 40px;
+        }
+        @media print {
+            body * { visibility: hidden; }
+            #certificate-template, #certificate-template * { visibility: visible; }
+            #certificate-template { position: absolute; left: 0; top: 0; }
+            .certificate-container { width: 100%; margin: 0; padding: 20px; }
         }
     </style>
 <link rel="stylesheet" href="/index.css">
@@ -471,8 +491,49 @@
                             <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
                         <h2 class="text-3xl font-extrabold text-slate-900">Course Complete!</h2>
-                        <p class="text-slate-600 mt-2">You have mastered the Foundations of Sports Tech Innovation.</p>
-                        <button onclick="localStorage.clear(); location.reload();" class="mt-6 px-6 py-2 bg-slate-800 text-white rounded hover:bg-slate-700 transition">Reset Course</button>
+                        <p class="text-slate-600 mt-2 mb-6">Parabéns! Completaste com sucesso o curso de Sports Tech Innovation.</p>
+                        
+                        <div id="name-form" class="max-w-md mx-auto">
+                            <p class="text-slate-700 mb-3">Para gerares o teu certificado, insere o teu nome:</p>
+                            <input type="text" id="studentName" placeholder="O teu nome completo" class="w-full px-4 py-3 border border-slate-300 rounded-lg mb-3 focus:outline-none focus:border-brand-500">
+                            <button onclick="generateCertificate()" class="mt-2 px-6 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition font-semibold">
+                                <i class="bi bi-award me-2"></i>Gerar Certificado
+                            </button>
+                        </div>
+
+                        <div id="certificate-section" class="hidden">
+                            <button onclick="printCertificate()" class="mt-4 px-6 py-2 bg-slate-800 text-white rounded hover:bg-slate-700 transition">
+                                <i class="bi bi-printer me-2"></i>Imprimir PDF
+                            </button>
+                            <button onclick="localStorage.clear(); location.reload();" class="mt-4 ml-2 px-6 py-2 bg-slate-200 text-slate-700 rounded hover:bg-slate-300 transition">Recomeçar Curso</button>
+                        </div>
+                    </div>
+
+                    <!-- Certificate Template (hidden, for printing) -->
+                    <div id="certificate-template" class="hidden">
+                        <div class="certificate-container">
+                            <div class="certificate-border">
+                                <div class="text-center">
+                                    <img src="logo.png" alt="Logo" class="h-16 mx-auto mb-4">
+                                    <h1 class="text-4xl font-bold text-brand-900 mb-2">Certificado de Conclusão</h1>
+                                    <p class="text-xl text-slate-600 mb-8">Foundations of Sports Tech Innovation</p>
+                                    <p class="text-lg text-slate-700 mb-2">Este certificado atesta que</p>
+                                    <h2 id="cert-student-name" class="text-3xl font-extrabold text-brand-900 mb-6 underline"></h2>
+                                    <p class="text-lg text-slate-700 mb-4">concluiu com sucesso o curso de</p>
+                                    <p class="text-xl font-semibold text-brand-700 mb-8">Innovation in Sports Tech: AI, Problem-Solving & Vibe Coding</p>
+                                    <div class="flex justify-center items-center gap-8 mt-8">
+                                        <div class="text-center">
+                                            <p id="cert-date" class="text-lg font-semibold text-slate-800 border-t border-slate-400 pt-2 px-8"></p>
+                                            <p class="text-sm text-slate-500">Data</p>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-lg font-semibold text-slate-800 border-t border-slate-400 pt-2 px-8">Gastão Sousa</p>
+                                            <p class="text-sm text-slate-500">Diretor do Curso</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -683,6 +744,34 @@
                 if (progress[2].passed) modules[2].locked = false;
                 if (progress[3].passed) modules[3].locked = false;
             }
+        }
+
+        function generateCertificate() {
+            const nameInput = document.getElementById('studentName');
+            const studentName = nameInput.value.trim();
+            
+            if (!studentName) {
+                alert('Por favor, insere o teu nome.');
+                nameInput.focus();
+                return;
+            }
+            
+            document.getElementById('cert-student-name').textContent = studentName;
+            
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('cert-date').textContent = today.toLocaleDateString('pt-PT', options);
+            
+            document.getElementById('name-form').classList.add('hidden');
+            document.getElementById('certificate-section').classList.remove('hidden');
+            document.getElementById('certificate-template').classList.remove('hidden');
+        }
+
+        function printCertificate() {
+            const certificateDiv = document.getElementById('certificate-template');
+            certificateDiv.classList.remove('hidden');
+            window.print();
+            certificateDiv.classList.add('hidden');
         }
     </script>
 <script type="module" src="/index.tsx"></script>
