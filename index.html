@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPTECH: Sports Tech Innovation Course</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        success: {
+                            50: '#f0fdf4',
+                            500: '#22c55e',
+                            700: '#15803d',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .module-content { display: none; }
+        .module-content.active { display: block; animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Tab Styles */
+        .tab-btn { transition: all 0.3s; border-bottom: 2px solid transparent; }
+        .tab-btn.active { color: #0369a1; border-bottom-color: #0ea5e9; background-color: #f0f9ff; }
+        .tab-btn.locked { opacity: 0.5; cursor: not-allowed; background-color: #f1f5f9; }
+        .tab-btn.completed .status-icon { color: #22c55e; }
+
+        /* Consistent Image Placeholder */
+        .img-placeholder {
+            height: 16rem; /* h-64 equivalent */
+            width: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            background-color: #e2e8f0;
+        }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="Institution" class="h-8 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('logo-text').style.display='block'">
+                <span id="logo-text" class="hidden font-bold text-xl text-brand-900 tracking-tighter">UP<span class="text-brand-500">TECH</span></span>
+            </div>
+            <div class="text-sm font-medium text-slate-500 hidden sm:block">Sports Tech Innovation MOOC by Gastão Sousa (gsousa@umaia.pt)</div>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <div class="bg-white border-b border-slate-200 overflow-x-auto">
+            <div class="max-w-6xl mx-auto px-4 flex space-x-1" id="tab-container">
+                <!-- Tabs injected by JS -->
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">
+
+        <!-- MODULE 1: FOUNDATIONS -->
+        <div id="module-1" class="module-content active">
+            <!-- Header -->
+            <div class="mb-8 border-b border-slate-200 pb-6">
+                <span class="text-brand-600 font-bold tracking-wider text-xs uppercase">Module 1</span>
+                <h1 class="text-3xl font-extrabold text-slate-900 mt-1">Foundations of Innovation: AI & Problem Solving</h1>
+                <p class="mt-4 text-lg text-slate-600 leading-relaxed">Welcome to the inaugural module. Here, we explore the seismic shift from intuition-based coaching to data-driven decision-making and introduce the GUT Matrix for prioritizing problems.</p>
+            </div>
+
+            <!-- Content Blocks -->
+            <div class="space-y-12">
+                <!-- Video Embedding -->
+                <div class="bg-slate-900 rounded-xl overflow-hidden shadow-lg aspect-video relative group">
+                    <video controls class="w-full h-full object-cover">
+                        <source src="module_1.mp4" type="video/mp4">
+                        <div class="flex items-center justify-center h-full text-white/70">Video Placeholder: module_1.mp4</div>
+                    </video>
+                </div>
+
+                <!-- Learning Content -->
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="prose prose-slate max-w-none">
+                        <!-- Image Placeholder -->
+                        <div class="mb-6">
+                            <img src="module_1.png" alt="Concept Visualization" class="img-placeholder" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2UzZThlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzU1NSI+SW1hZ2UgUGxhY2Vob2xkZXI6IG1vZHVsZV8xX3Zpc3VhbC5wbmc8L3RleHQ+PC9zdmc+'">
+                        </div>
+
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">The Innovation Gap & Technology Stack</h3>
+                        <p>The sports industry is undergoing a digital revolution. Decisions are moving from "naked eye" observations to objective data. The market for AI in sports is projected to reach <strong>$29.7 billion by 2032</strong> (Jain, 2025).</p>
+                        
+                        <p class="mt-4 font-semibold">Understanding the Tech Stack Layers:</p>
+                        <ul class="list-disc pl-5 space-y-2 mt-2 text-slate-700">
+                            <li><strong>The Data Layer (Sensing):</strong> The raw inputs. This includes GPS vests, cameras, and wearables that collect the data. If this layer is noisy, everything else fails.</li>
+                            <li><strong>The Intelligence Layer (Insight):</strong> Where AI processes raw data to find patterns (e.g., "Player is fatigued").</li>
+                            <li><strong>The Application Layer (Action):</strong> The dashboard or app where the coach sees the insight and makes a decision.</li>
+                        </ul>
+
+                        <p class="mt-4 font-semibold">Key Technologies:</p>
+                        <ul class="list-disc pl-5 space-y-2 mt-2 text-slate-700">
+                            <li><strong>Computer Vision:</strong> The ability to track skeletal movement and biomechanics using standard cameras, <em>without</em> requiring athletes to wear sensors.</li>
+                            <li><strong>Wearables:</strong> Devices that measure physiological load, such as Heart Rate Variability (HRV).</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Visual 1: GUT Matrix -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h4 class="font-bold text-brand-700 mb-4 uppercase text-sm tracking-wide">The GUT Matrix Framework</h4>
+                        <p class="text-sm text-slate-600 mb-4">Before solving a problem, you must prioritize it. The GUT Matrix helps you score problems on a scale of 1-5 to find the most critical issue.</p>
+                        
+                        <svg viewBox="0 0 300 180" class="w-full my-4">
+                            <rect x="10" y="10" width="280" height="160" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+                            <text x="150" y="40" text-anchor="middle" font-weight="bold" fill="#334155">PRIORITY SCORE = G × U × T</text>
+                            
+                            <!-- G -->
+                            <circle cx="60" cy="90" r="25" fill="#fee2e2" />
+                            <text x="60" y="95" text-anchor="middle" font-weight="bold" fill="#b91c1c">G</text>
+                            <text x="60" y="130" text-anchor="middle" font-size="10" fill="#64748b">Gravity</text>
+                            
+                            <text x="100" y="95" text-anchor="middle" font-weight="bold" fill="#94a3b8">×</text>
+
+                            <!-- U -->
+                            <circle cx="140" cy="90" r="25" fill="#ffedd5" />
+                            <text x="140" y="95" text-anchor="middle" font-weight="bold" fill="#c2410c">U</text>
+                            <text x="140" y="130" text-anchor="middle" font-size="10" fill="#64748b">Urgency</text>
+
+                            <text x="180" y="95" text-anchor="middle" font-weight="bold" fill="#94a3b8">×</text>
+
+                            <!-- T -->
+                            <circle cx="220" cy="90" r="25" fill="#fef9c3" />
+                            <text x="220" y="95" text-anchor="middle" font-weight="bold" fill="#a16207">T</text>
+                            <text x="220" y="130" text-anchor="middle" font-size="10" fill="#64748b">Trend</text>
+                        </svg>
+                        
+                        <div class="bg-slate-50 p-3 rounded text-xs space-y-2 border border-slate-100">
+                            <p><strong>(G) Gravity:</strong> How severe is the impact? (5 = Extremely Serious)</p>
+                            <p><strong>(U) Urgency:</strong> How soon must we act? (5 = Immediate)</p>
+                            <p><strong>(T) Trend:</strong> Is it getting worse? (5 = Rapidly Worsening)</p>
+                            <p class="font-bold text-slate-800 pt-1 border-t border-slate-200 mt-2">Example Calculation:</p>
+                            <p>A problem with Gravity 4, Urgency 3, and Trend 5.</p>
+                            <p>Calculation: 4 x 3 x 5 = <strong>60</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz M1 -->
+                <div class="bg-brand-50 border border-brand-100 rounded-xl p-8">
+                    <h3 class="text-xl font-bold text-brand-900 mb-2">Assessment 1: Foundations</h3>
+                    <p class="text-brand-700 mb-6 text-sm">Select the correct answers. You can retry until you get them right. You must get at least 4 out of 5 correct to proceed.</p>
+                    <div id="quiz-1-container" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 2: VIBE CODING -->
+        <div id="module-2" class="module-content">
+             <div class="mb-8 border-b border-slate-200 pb-6">
+                <span class="text-brand-600 font-bold tracking-wider text-xs uppercase">Module 2</span>
+                <h1 class="text-3xl font-extrabold text-slate-900 mt-1">Mastering Vibe Coding</h1>
+                <p class="mt-4 text-lg text-slate-600 leading-relaxed">In this module, you will learn the philosophy and practical steps of Vibe Coding—a method allowing you to instruct AI to write functional software using natural language.</p>
+            </div>
+
+            <div class="space-y-12">
+                <!-- Video -->
+                <div class="bg-slate-900 rounded-xl overflow-hidden shadow-lg aspect-video relative">
+                    <video controls class="w-full h-full object-cover">
+                        <source src="module_2.mp4" type="video/mp4">
+                        <div class="flex items-center justify-center h-full text-white/70">Video Placeholder: module_2.mp4</div>
+                    </video>
+                </div>
+
+                <!-- Content -->
+                <div class="prose max-w-none text-slate-700">
+                    <!-- Image Placeholder -->
+                    <div class="mb-8">
+                        <img src="module_1.png" alt="Vibe Coding Interface" class="img-placeholder" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2UzZThlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzU1NSI+SW1hZ2UgUGxhY2Vob2xkZXI6IG1vZHVsZV8yX3Zpc3VhbC5wbmc8L3RleHQ+PC9zdmc+'">
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-900">2.1 The Paradigm Shift</h3>
+                    <p><strong>What is Vibe Coding?</strong> It is a modern approach to application development that involves heavily relying on a Large Language Model (LLM) to generate code. Instead of writing every line of code by hand (execution), you describe the required outcome using natural language prompts (intent).</p>
+                    <p>The term was popularized by OpenAI co-founder <strong>Andrej Karpathy in February 2025</strong>. It represents a shift from "Execution" to "Intent".</p>
+                    
+                    <div class="my-8 grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-brand-700 mb-3">Traditional Coder</h4>
+                            <ul class="text-sm space-y-2 list-disc pl-4">
+                                <li>Focuses on syntax, memory management, and debugging.</li>
+                                <li>Executes technical requirements precisely.</li>
+                                <li>Spends time on manual recoding for small changes.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-brand-50 p-6 rounded-lg border border-brand-200 shadow-sm">
+                            <h4 class="font-bold text-brand-700 mb-3">High-Level Director (You)</h4>
+                            <ul class="text-sm space-y-2 list-disc pl-4">
+                                <li>This is the new primary role of the human creator.</li>
+                                <li>Focuses on strategy, creative direction, and user experience.</li>
+                                <li>Sets the <strong>"Vibe"</strong> (emotional direction and strategic intent).</li>
+                                <li>Evaluates and refines AI output rather than writing it.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Visual 2: Vibe Workflow -->
+                    <div class="flex flex-col items-center my-8 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-500 text-xs uppercase mb-4">The Vibe Coding Workflow</h4>
+                        <svg width="400" height="150" viewBox="0 0 400 150">
+                             <!-- Human -->
+                             <circle cx="50" cy="75" r="30" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
+                             <text x="50" y="80" text-anchor="middle" font-size="10" fill="#0369a1">Human</text>
+                             <text x="50" y="120" text-anchor="middle" font-size="10" font-weight="bold">Intent</text>
+
+                             <!-- Arrow -->
+                             <path d="M90 75 L140 75" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+                             
+                             <!-- AI Box -->
+                             <rect x="150" y="45" width="100" height="60" rx="5" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+                             <text x="200" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">LLM / AI</text>
+                             <text x="200" y="120" text-anchor="middle" font-size="10" font-weight="bold">Execution</text>
+
+                             <!-- Arrow -->
+                             <path d="M260 75 L310 75" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+                             <!-- Code -->
+                             <rect x="320" y="50" width="50" height="50" fill="#f8fafc" stroke="#cbd5e1"/>
+                             <line x1="325" y1="60" x2="365" y2="60" stroke="#cbd5e1"/>
+                             <line x1="325" y1="70" x2="360" y2="70" stroke="#cbd5e1"/>
+                             <line x1="325" y1="80" x2="350" y2="80" stroke="#cbd5e1"/>
+                             <text x="345" y="120" text-anchor="middle" font-size="10" font-weight="bold">Prototype</text>
+                             
+                             <defs>
+                                <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto">
+                                    <path d="M0,0 L0,6 L9,3 z" fill="#94a3b8" />
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-900 mt-8">2.3 Core Tools for Vibe Coding</h3>
+                    <p>Different phases of development require different "intelligent co-pilots". Choosing the right tool is critical.</p>
+                    <div class="overflow-x-auto mt-4 rounded-lg border border-slate-200">
+                        <table class="min-w-full text-sm text-left">
+                            <thead class="bg-slate-100 font-bold text-slate-700"><tr><th class="p-4">Tool Name</th><th class="p-4">Primary Use Case</th></tr></thead>
+                            <tbody class="divide-y divide-slate-100 bg-white">
+                                <tr><td class="p-4 font-bold text-brand-700">Lovable</td><td class="p-4"><strong>Emotion-aware design.</strong> Best for non-technical founders needing beautiful UI/UX from a "vibe" prompt. Perfect for setting a "serene and supportive" tone.</td></tr>
+                                <tr><td class="p-4 font-bold text-brand-700">Replit</td><td class="p-4"><strong>Rapid prototyping.</strong> Excellent for "instant app scaffolding" and collaborative web-based coding.</td></tr>
+                                <tr><td class="p-4 font-bold text-brand-700">Bolt.new</td><td class="p-4"><strong>Full-Stack MVP.</strong> Generates backend, frontend, and database configurations instantly to test ideas.</td></tr>
+                                <tr><td class="p-4 font-bold text-brand-700">Cursor</td><td class="p-4"><strong>Refactoring & Context.</strong> Functions like an IDE with a brain; understands your <em>entire</em> project context to fix complex bugs.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-900 mt-8">2.4 Prompt Engineering Techniques</h3>
+                    <p>To be a successful Director, you must master the prompt. Key techniques include:</p>
+                    <ul class="list-disc pl-5 space-y-2 mt-2">
+                        <li><strong>Be Clear and Specific (Intent):</strong> Don't say "Write code." Say "Write a Python script that calculates readiness based on sleep (60%) and soreness (40%)."</li>
+                        <li><strong>Define Data Structures:</strong> Explicitly state inputs (e.g., JSON object) and outputs (e.g., integer 1-100).</li>
+                        <li><strong>Specifying Frameworks:</strong> Tell the AI explicitly what language or framework to use (e.g., <strong>"Use React"</strong> or "Use Python") to ensure compatibility with your stack.</li>
+                        <li><strong>Few-Shot Learning:</strong> Provide an example of a correct input/output pair to guide the AI's logic.</li>
+                    </ul>
+                </div>
+
+                <!-- Quiz M2 -->
+                <div class="bg-brand-50 border border-brand-100 rounded-xl p-8">
+                    <h3 class="text-xl font-bold text-brand-900 mb-2">Assessment 2: Vibe Coding</h3>
+                    <p class="text-brand-700 mb-6 text-sm">Select the correct answers. You can retry until you get them right. You must get at least 4 out of 5 correct to proceed.</p>
+                    <div id="quiz-2-container" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 3: PROTOTYPING -->
+        <div id="module-3" class="module-content">
+            <div class="mb-8 border-b border-slate-200 pb-6">
+                <span class="text-brand-600 font-bold tracking-wider text-xs uppercase">Module 3</span>
+                <h1 class="text-3xl font-extrabold text-slate-900 mt-1">Vibe Coding in Sports Tech (Prototyping)</h1>
+                <p class="mt-4 text-lg text-slate-600 leading-relaxed">This module focuses on practical application: diagnosing root causes, defining SMART goals, and quantifying the subjective "vibe" of an athlete using biometrics.</p>
+            </div>
+
+            <div class="space-y-12">
+                 <!-- Video -->
+                 <div class="bg-slate-900 rounded-xl overflow-hidden shadow-lg aspect-video relative">
+                    <video controls class="w-full h-full object-cover">
+                        <source src="module_3.mp4" type="video/mp4">
+                        <div class="flex items-center justify-center h-full text-white/70">Video Placeholder: module_3.mp4</div>
+                    </video>
+                </div>
+
+                <div class="prose max-w-none text-slate-700">
+                     <!-- Image Placeholder -->
+                     <div class="mb-8">
+                        <img src="module_1.png" alt="Prototyping Cycle" class="img-placeholder" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2UzZThlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzU1NSI+SW1hZ2UgUGxhY2Vob2xkZXI6IG1vZHVsZV8zX3Zpc3VhbC5wbmc8L3RleHQ+PC9zdmc+'">
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-900">3.1 Diagnosis & The 5 Whys</h3>
+                    <p>Before writing a single line of code, you must diagnose the problem. The <strong>"5 Whys"</strong> technique involves asking "Why?" repeatedly until the root cause is found.</p>
+                    <p><em>Example:</em> "Coach burnout" isn't just about logging data—it's often about a <em>systemic lack of integration</em> between two different platforms. Vibe Coding can accelerate this diagnosis by acting as a process analyst.</p>
+                    
+                    <h3 class="text-xl font-bold text-slate-900 mt-6">3.2 SMART Objectives & MVPs</h3>
+                    <p>Your solution needs a clear goal. We use the SMART framework. A critical component is the <strong>Time-bound</strong> nature (e.g., "By Friday at 5 PM").</p>
+                    
+                    <p class="mt-4"><strong>The Power of the MVP (Minimum Viable Product):</strong> Vibe Coding is ideal for MVPs because <strong>it drastically accelerates development time</strong> for functional prototypes. You can launch an initial solution in hours rather than weeks.</p>
+                    
+                    <div class="bg-red-50 p-4 border-l-4 border-red-500 my-4 text-sm">
+                        <p class="font-bold text-red-800">Critical Limitation:</p>
+                        <p>Vibe coding should be avoided for <strong>complex problems or those handling sensitive data</strong> (like biometrics) without strict human oversight, as LLMs can hallucinate or mishandle privacy.</p>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-900 mt-8">3.3 Quantifying the Athlete Vibe</h3>
+                    <p>A central application of AI in sports is quantifying intangible factors like "The Zone" or "Stress".</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 my-6">
+                        <!-- Visual 3: Quantifying The Zone -->
+                        <div class="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                             <h4 class="font-bold text-slate-500 text-xs uppercase mb-4">Input -> Hidden State</h4>
+                            <svg width="250" height="150" viewBox="0 0 250 150">
+                                <!-- Brain/State -->
+                                <path d="M125,20 Q160,-10 190,20 T180,70 T125,90 T70,70 T60,20 Q90,-10 125,20" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2"/>
+                                <text x="125" y="50" text-anchor="middle" font-size="10" font-weight="bold" fill="#0369a1">"THE ZONE"</text>
+                                
+                                <!-- Inputs -->
+                                <rect x="20" y="110" width="80" height="30" rx="4" fill="#f8fafc" stroke="#94a3b8"/>
+                                <text x="60" y="128" text-anchor="middle" font-size="9">HRV Data</text>
+                                
+                                <rect x="150" y="110" width="80" height="30" rx="4" fill="#f8fafc" stroke="#94a3b8"/>
+                                <text x="190" y="128" text-anchor="middle" font-size="9">IMU (Motion)</text>
+
+                                <!-- Connection lines -->
+                                <line x1="60" y1="110" x2="100" y2="80" stroke="#cbd5e1" stroke-dasharray="4"/>
+                                <line x1="190" y1="110" x2="150" y2="80" stroke="#cbd5e1" stroke-dasharray="4"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-white p-4 rounded border border-slate-100 shadow-sm">
+                                <h5 class="font-bold text-slate-800 text-sm">Heart Rate Variability (HRV)</h5>
+                                <p class="text-xs text-slate-600 mt-1">Deep Neural Networks (LSTMs) can predict mental states (stress, anxiety) with <strong>up to 83% accuracy</strong> using only HRV data (Coutts et al., 2020).</p>
+                            </div>
+                            <div class="bg-white p-4 rounded border border-slate-100 shadow-sm">
+                                <h5 class="font-bold text-slate-800 text-sm">Motion Data (IMU)</h5>
+                                <p class="text-xs text-slate-600 mt-1">12-dimensional Inertial Measuring Unit (IMU) time series data can predict if a tennis player is "In the Zone" with <strong>~85% accuracy</strong> (Havlucu et al., 2022).</p>
+                            </div>
+                            <div class="bg-white p-4 rounded border border-slate-100 shadow-sm">
+                                <h5 class="font-bold text-slate-800 text-sm">Hybrid Models</h5>
+                                <p class="text-xs text-slate-600 mt-1">Combining bio-data with unstructured self-reports (Sentiment Analysis) achieves <strong>94% accuracy</strong> (Duan et al., 2024).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz M3 -->
+                <div class="bg-brand-50 border border-brand-100 rounded-xl p-8">
+                    <h3 class="text-xl font-bold text-brand-900 mb-2">Assessment 3: Prototyping</h3>
+                    <p class="text-brand-700 mb-6 text-sm">Select the correct answers. You can retry until you get them right. You must get at least 4 out of 5 correct to proceed.</p>
+                    <div id="quiz-3-container" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 4: TESTING & FUTURE -->
+        <div id="module-4" class="module-content">
+             <div class="mb-8 border-b border-slate-200 pb-6">
+                <span class="text-brand-600 font-bold tracking-wider text-xs uppercase">Module 4</span>
+                <h1 class="text-3xl font-extrabold text-slate-900 mt-1">Testing, Refinement & Future Outlook</h1>
+                <p class="mt-4 text-lg text-slate-600 leading-relaxed">The final module covers the crucial steps of Quality Assurance, Ethical considerations (HIPAA), and the future "Centaur" relationship between Human and AI.</p>
+            </div>
+
+            <div class="space-y-12">
+                 <!-- Video -->
+                 <div class="bg-slate-900 rounded-xl overflow-hidden shadow-lg aspect-video relative">
+                    <video controls class="w-full h-full object-cover">
+                        <source src="module_4.mp4" type="video/mp4">
+                        <div class="flex items-center justify-center h-full text-white/70">Video Placeholder: module_4.mp4</div>
+                    </video>
+                </div>
+
+                <div class="prose max-w-none text-slate-700">
+                    <!-- Image Placeholder -->
+                    <div class="mb-8">
+                        <img src="module_1.png" alt="Future Trends" class="img-placeholder" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2UzZThlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzU1NSI+SW1hZ2UgUGxhY2Vob2xkZXI6IG1vZHVsZV80X3Zpc3VhbC5wbmc8L3RleHQ+PC9zdmc+'">
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-900">4.1 Quality Assurance & Risks</h3>
+                    <p>The speed of Vibe Coding comes with responsibility. AI-generated code introduces specific risks:</p>
+                    <ul class="list-disc pl-5 space-y-2 mt-2">
+                        <li><strong>Loss of Understanding:</strong> If you rely too heavily on AI, you may not understand the codebase, making debugging difficult.</li>
+                        <li><strong>Vulnerability Exposure:</strong> The incredible speed of development can allow <strong>more vulnerabilities to reach production due to rushed review</strong>.</li>
+                        <li><strong>Implementation Cycle:</strong> When moving to production (Step 9), we follow the core innovation cycle: <strong>Build, Measure, Learn</strong>.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-slate-900 mt-8">4.2 Data Privacy & Ethics</h3>
+                    <p>Sports tech deals with sensitive data. You must navigate:</p>
+                    <ul class="list-disc pl-5 space-y-2 mt-2">
+                        <li><strong>GDPR:</strong> In Europe, the <strong>General Data Protection Regulation (GDPR)</strong> provides strict protection for personal data, including athlete health metrics. (In the US, HIPAA applies).</li>
+                        <li><strong>Algorithmic Bias & Fear of Failure (FoF):</strong> AI coaches might favor confident users. To mitigate this risk, systems must provide adequate <strong>Emotional and Motivational Support</strong>, not just technical correction.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-slate-900 mt-8">4.4 The "Centaur" Model & Future</h3>
+                    <p>The future is not AI replacing coaches, but a partnership. The AI provides data (Knowledge Transfer), and the Human provides emotional intelligence.</p>
+                    
+                    <p class="mt-4"><strong>The Tactical Validation Loop:</strong> When an AI suggests a tactical change (e.g., a formation shift), the human coach must not blindly accept or ignore it. They must perform a <strong>Tactical Validation Loop</strong> to evaluate, adapt, and personalize the suggestion before implementation.</p>
+
+                    <div class="my-8 flex justify-center bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <!-- Visual 4: Centaur Model -->
+                        <div class="flex flex-col items-center">
+                            <h4 class="font-bold text-slate-700 text-xs uppercase mb-4">The Tactical Validation Loop</h4>
+                            <svg width="300" height="120" viewBox="0 0 300 120">
+                                <rect x="20" y="40" width="80" height="40" rx="4" fill="#e0f2fe" stroke="#0ea5e9"/>
+                                <text x="60" y="65" text-anchor="middle" font-size="10" font-weight="bold" fill="#0369a1">AI Suggestion</text>
+                                
+                                <path d="M100 60 L180 60" stroke="#64748b" stroke-width="2" marker-end="url(#arrow-sm)"/>
+                                
+                                <rect x="180" y="40" width="80" height="40" rx="4" fill="#f0fdf4" stroke="#22c55e"/>
+                                <text x="220" y="65" text-anchor="middle" font-size="10" font-weight="bold" fill="#15803d">Human Check</text>
+                                
+                                <path d="M220 80 Q150 110 60 80" fill="none" stroke="#f59e0b" stroke-dasharray="4" stroke-width="2"/>
+                                <text x="140" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#d97706">Validation Loop</text>
+                                
+                                <defs>
+                                    <marker id="arrow-sm" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto">
+                                        <path d="M0,0 L0,6 L6,3 z" fill="#64748b" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz M4 -->
+                <div class="bg-brand-50 border border-brand-100 rounded-xl p-8">
+                    <h3 class="text-xl font-bold text-brand-900 mb-2">Assessment 4: Final Certification</h3>
+                    <p class="text-brand-700 mb-6 text-sm">Select the correct answers. You can retry until you get them right. Pass with 4/5 correct to complete the course.</p>
+                    <div id="quiz-4-container" class="space-y-4"></div>
+                    
+                    <div id="course-completion" class="hidden mt-8 text-center bg-white p-8 rounded-xl shadow-lg border border-brand-200">
+                        <div class="inline-block p-4 rounded-full bg-green-100 text-green-600 mb-4">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-slate-900">Course Complete!</h2>
+                        <p class="text-slate-600 mt-2">You have mastered the Foundations of Sports Tech Innovation.</p>
+                        <button onclick="localStorage.clear(); location.reload();" class="mt-6 px-6 py-2 bg-slate-800 text-white rounded hover:bg-slate-700 transition">Reset Course</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-8 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+             <!-- Local Logo Placeholder Footer -->
+             <img src="logo.png" alt="Institution" class="h-6 w-auto mx-auto mb-4 opacity-50 grayscale" onerror="this.style.display='none'">
+            <p class="text-sm font-medium text-slate-900">Sports Tech Innovation MOOC by Gastão Sousa (gsousa@umaia.pt)</p>
+            <p class="text-xs text-slate-500 mt-2 max-w-lg mx-auto">
+                References: Jain, S. (2025) AI Market Analysis; Karpathy, A. (2025); Coutts et al. (2020); Havlucu et al. (2022); Duan et al. (2024); Fisher Phillips (n.d.).
+            </p>
+        </div>
+    </footer>
+
+    <!-- Logic -->
+    <script>
+        // --- DATA ---
+        const modules = [
+            { id: 1, name: "Foundations", locked: false },
+            { id: 2, name: "Vibe Coding", locked: true },
+            { id: 3, name: "Prototyping", locked: true },
+            { id: 4, name: "Testing & Future", locked: true }
+        ];
+
+        const quizzes = {
+            1: [
+                { q: "Scenario: A team has GPS vests (Sensing) and a dashboard (Insight), but data is noisy. Which layer is failing?", a: ["The Data Layer", "The Intelligence Layer", "The Application Layer"], correct: 0 },
+                { q: "Using the GUT Matrix, how would you score a Star Player Injury compared to Slow Wi-Fi?", a: ["Lower Gravity", "Equal Gravity", "Higher Gravity (5)"], correct: 2 },
+                { q: "Which tech allows tracking skeletal movement without sensors?", a: ["GPS", "Computer Vision", "RFID"], correct: 1 },
+                { q: "Calculate GUT: Gravity(4) x Urgency(3) x Trend(5).", a: ["12", "60", "35"], correct: 1 },
+                { q: "The AI Market in sports is projected to reach what value by 2032?", a: ["$2.2bn", "$10.5bn", "$29.7bn"], correct: 2 }
+            ],
+            2: [
+                { q: "What is Vibe Coding?", a: ["Writing rigid syntax", "Relying on LLMs to generate code from intent", "Manual debugging"], correct: 1 },
+                { q: "What is the new human role in Vibe Coding?", a: ["Syntax Validator", "High-Level Director / Architect of Intent", "Boilerplate Writer"], correct: 1 },
+                { q: "Which tool is best for 'Emotion-aware design'?", a: ["Cursor", "Lovable", "Bolt.new"], correct: 1 },
+                { q: "Who coined 'Vibe Coding' in Feb 2025?", a: ["Elon Musk", "Sam Altman", "Andrej Karpathy"], correct: 2 },
+                { q: "Which prompting technique involves specifying frameworks (e.g., 'Use React')?", a: ["Few-Shot Learning", "Specifying Frameworks", "Data Structuring"], correct: 1 }
+            ],
+            3: [
+                { q: "Which SMART goal component requires a 'Completion Deadline'?", a: ["Specific", "Relevant", "Time-bound"], correct: 2 },
+                { q: "Why is Vibe Coding ideal for MVPs?", a: ["It is always secure", "It drastically accelerates development time", "It eliminates human review"], correct: 1 },
+                { q: "When should Vibe Coding be avoided?", a: ["Simple UI", "Complex problems or handling sensitive data", "Boilerplate"], correct: 1 },
+                { q: "HRV data can predict stress/anxiety with what accuracy?", a: ["50%", "83%", "99%"], correct: 1 },
+                { q: "What data type predicts 'The Zone' with 85% accuracy?", a: ["Facial Rec", "Inertial Measuring Unit (IMU) time series data", "Voice"], correct: 1 }
+            ],
+            4: [
+                { q: "Which European regulation protects personal data?", a: ["GDPR", "HIPAA", "ADA"], correct: 0 },
+                { q: "How do you mitigate 'Fear of Failure' bias in AI coaches?", a: ["Better Syntax", "Emotional and Motivational Support", "More Data"], correct: 1 },
+                { q: "Why does Vibe Coding increase security risk?", a: ["Too complex", "It allows more vulnerabilities to reach production due to rushed review", "Prevents GUT matrix"], correct: 1 },
+                { q: "What constitutes the implementation cycle (Step 9)?", a: ["Plan-Do-Check", "Build, Measure, Learn", "Gravity-Urgency-Trend"], correct: 1 },
+                { q: "What must a human coach perform on AI tactical suggestions?", a: ["Ignore them", "Tactical Validation Loop", "Recode them"], correct: 1 }
+            ]
+        };
+
+        // --- STATE ---
+        let currentModuleId = 1;
+        // Progress tracks completion status.
+        let progress = { 1: { passed: false }, 2: { passed: false }, 3: { passed: false }, 4: { passed: false } };
+        
+        // Quiz state tracks currently selected answers per module: { moduleId: [bool, bool, bool, bool, bool] }
+        // Default to false (not correct yet).
+        let quizState = {
+            1: [false, false, false, false, false],
+            2: [false, false, false, false, false],
+            3: [false, false, false, false, false],
+            4: [false, false, false, false, false]
+        };
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+            renderTabs();
+            renderQuizzes();
+            switchTab(1); // Default
+        });
+
+        // --- CORE FUNCTIONS ---
+        function renderTabs() {
+            const container = document.getElementById('tab-container');
+            container.innerHTML = modules.map(m => {
+                const isLocked = m.locked && !progress[m.id - 1]?.passed && m.id !== 1;
+                const statusIcon = progress[m.id].passed ? '✓' : (isLocked ? '🔒' : (m.id));
+                const activeClass = currentModuleId === m.id ? 'active' : '';
+                const lockedClass = isLocked ? 'locked' : 'hover:bg-slate-50 cursor-pointer';
+                const clickHandler = isLocked ? '' : `onclick="switchTab(${m.id})"`;
+                
+                return `
+                    <div class="flex-shrink-0">
+                        <button ${clickHandler} class="tab-btn ${activeClass} ${lockedClass} ${progress[m.id].passed ? 'completed' : ''} px-4 py-3 text-sm font-medium flex items-center gap-2">
+                            <span class="status-icon w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold">${statusIcon}</span>
+                            ${m.name}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function switchTab(id) {
+            if (id > 1 && !progress[id-1].passed) return;
+            currentModuleId = id;
+            document.querySelectorAll('.module-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`module-${id}`).classList.add('active');
+            renderTabs();
+            window.scrollTo(0, 0);
+        }
+
+        function renderQuizzes() {
+            for (let i = 1; i <= 4; i++) {
+                const container = document.getElementById(`quiz-${i}-container`);
+                if (!container) continue;
+
+                container.innerHTML = quizzes[i].map((q, qIdx) => `
+                    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm quiz-card" id="card-${i}-${qIdx}">
+                        <p class="font-semibold text-slate-800 mb-3">${qIdx + 1}. ${q.q}</p>
+                        <div class="space-y-2">
+                            ${q.a.map((opt, optIdx) => `
+                                <button onclick="checkAnswer(${i}, ${qIdx}, ${optIdx}, this)" 
+                                    class="w-full text-left px-4 py-2 text-sm border rounded hover:bg-slate-50 transition-colors option-btn"
+                                    data-is-correct="${optIdx === q.correct}">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div class="feedback hidden mt-2 text-sm font-medium"></div>
+                    </div>
+                `).join('');
+
+                // Add "Unlock Next" button if applicable
+                if (i < 4) {
+                    container.innerHTML += `<button id="unlock-btn-${i}" class="hidden w-full mt-4 py-3 bg-slate-300 text-white font-bold rounded-lg cursor-not-allowed" disabled>Pass Quiz to Unlock Module ${i+1}</button>`;
+                }
+            }
+        }
+
+        function checkAnswer(modId, qIdx, optIdx, btn) {
+            const card = document.getElementById(`card-${modId}-${qIdx}`);
+            const buttons = card.querySelectorAll('.option-btn');
+            const feedback = card.querySelector('.feedback');
+            const isCorrect = btn.getAttribute('data-is-correct') === 'true';
+
+            // Reset UI for this question card
+            buttons.forEach(b => {
+                b.classList.remove('bg-green-100', 'border-green-500', 'text-green-800', 'bg-red-100', 'border-red-500', 'text-red-800');
+            });
+
+            // Update State
+            quizState[modId][qIdx] = isCorrect;
+
+            // Apply Styles & Feedback
+            if (isCorrect) {
+                btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+                feedback.innerHTML = "Correct!";
+                feedback.className = "feedback mt-2 text-sm font-medium text-green-600";
+            } else {
+                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+                feedback.innerHTML = "Incorrect. Try again.";
+                feedback.className = "feedback mt-2 text-sm font-medium text-red-600";
+            }
+            feedback.classList.remove('hidden');
+
+            checkModuleCompletion(modId);
+        }
+
+        function checkModuleCompletion(modId) {
+            // Check how many are currently correct
+            const currentScore = quizState[modId].filter(Boolean).length;
+            const totalQ = quizzes[modId].length;
+            const passed = currentScore >= 4; // 80% Requirement
+
+            if (passed) {
+                progress[modId].passed = true;
+                saveProgress();
+
+                if (modId < 4) {
+                    const btn = document.getElementById(`unlock-btn-${modId}`);
+                    if(btn) {
+                        btn.classList.remove('hidden', 'bg-slate-300', 'cursor-not-allowed');
+                        btn.classList.add('bg-brand-600', 'hover:bg-brand-700', 'shadow-lg');
+                        btn.disabled = false;
+                        btn.textContent = `Passed! (${currentScore}/${totalQ} Correct) - Proceed to Module ${modId+1} ->`;
+                        btn.onclick = () => {
+                            modules[modId].locked = false; 
+                            switchTab(modId + 1);
+                        };
+                    }
+                } else {
+                    document.getElementById('course-completion').classList.remove('hidden');
+                    document.getElementById('course-completion').scrollIntoView({behavior: 'smooth'});
+                }
+                renderTabs();
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('uptech_progress', JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('uptech_progress');
+            if (saved) {
+                progress = JSON.parse(saved);
+                if (progress[1].passed) modules[1].locked = false;
+                if (progress[2].passed) modules[2].locked = false;
+                if (progress[3].passed) modules[3].locked = false;
+            }
+        }
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
